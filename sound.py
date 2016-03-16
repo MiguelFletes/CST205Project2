@@ -49,8 +49,8 @@ for x in xrange(NUMBEROFFRAMES):
  WAVEDATA = WAVEDATA+chr(int(math.sin(x/((BITRATE/FREQUENCY)/math.pi))*127+128))    
 
 #fill remainder of frameset with silence
-for x in xrange(RESTFRAMES): 
- WAVEDATA = WAVEDATA+chr(128)
+#for x in xrange(RESTFRAMES): 
+ #WAVEDATA = WAVEDATA+chr(128)
 
 p = PyAudio()
 stream = p.open(format = p.get_format_from_width(1), 

@@ -37,8 +37,9 @@ if __name__ == '__main__':
     Tried to figure out how to set each pixel a frequency
     Modify this part of the code
     ****************************************************************
-    for x in range(width):
-		for y in range(height):
+    '''
+    for x in range(10):
+		for y in range(10):
 			r, g, b = rgb.getpixel((x,y))
 			
 			if (r >= 0 and r <= 50):
@@ -53,6 +54,6 @@ if __name__ == '__main__':
     				play_tone(stream, frequency = 500, length = .5)
     		if (r >= 251 and r <= 255):
     				play_tone(stream, frequency = 600, length = .5)
-	'''	
+		
     stream.close()
     p.terminate()
