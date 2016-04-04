@@ -12,45 +12,57 @@ The code for playing sound was modified from the code here.
 '''
 Functions:
 '''
+PyAudio = pyaudio.PyAudio
+BITRATE = 10000
+FREQUENCY = 1
+LENGTH = 1.0000001
 
 #This fungtion goes through each pixel of an image and plays a sound
 #depending on the RGB values
 def normal(image):
+    global BITRATE
+    global FREQUENCY
+    global LENGTH
+    global PyAudio
     for i in range(image.size[0]):
         for j in range(image.size[1]):
             print "------", i, j#for debug
             location = (i, j)
             pix = image.getpixel(location) 
 
-            #change frequency
-            FREQUENCY = 1000 + (15.625 * pix[0])
-            #change length
-            LENGTH = 0.002 * pix[1]
+        #change frequency
+        FREQUENCY = 1000 + (15.625 * pix[0])
+        #change length
+        LENGTH = 0.002 * pix[1]
 
-            NUMBEROFFRAMES = int(BITRATE * LENGTH)
-            RESTFRAMES = NUMBEROFFRAMES % BITRATE
-            WAVEDATA = ''    
+        NUMBEROFFRAMES = int(BITRATE * LENGTH)
+        RESTFRAMES = NUMBEROFFRAMES % BITRATE
+        WAVEDATA = ''    
 
-            for x in xrange(NUMBEROFFRAMES):
-                WAVEDATA = WAVEDATA+chr(int(math.sin(x/((BITRATE/FREQUENCY)/math.pi))*127+128))    
+        for x in xrange(NUMBEROFFRAMES):
+            WAVEDATA = WAVEDATA+chr(int(math.sin(x/((BITRATE/FREQUENCY)/math.pi))*127+128))    
 
-            #fill remainder of frameset with silence
-            #for x in xrange(RESTFRAMES): 
-            WAVEDATA = WAVEDATA + WAVEDATA + chr(128)
+        #fill remainder of frameset with silence
+        #for x in xrange(RESTFRAMES): 
+        WAVEDATA = WAVEDATA + WAVEDATA + chr(128)
 
-            #play the sound
-            p = PyAudio()
-            stream = p.open(format = p.get_format_from_width(1), 
-                            channels = 1, rate = BITRATE, 
-                            output = True)
-            stream.write(WAVEDATA)
-            stream.stop_stream()
-            stream.close()
+        #play the sound
+        p = PyAudio()
+        stream = p.open(format = p.get_format_from_width(1), 
+                        channels = 1, rate = BITRATE, 
+                        output = True)
+        stream.write(WAVEDATA)
+        stream.stop_stream()
+        stream.close()
     p.terminate()
 
 #This function takes the median of the RGB values of each row of an image
 #and plays a sound for each
 def median(image):
+    global BITRATE
+    global FREQUENCY
+    global LENGTH
+    global PyAudio
     rVal = []
     gVal = []
     #bVal = []
@@ -96,6 +108,10 @@ def median(image):
 
 #This function takes the average of the RGB values and plays a sound
 def average(image):
+    global BITRATE
+    global FREQUENCY
+    global LENGTH
+    global PyAudio
     rVal = 0
     gVal = 0
     for i in range(image.size[0]):
@@ -143,10 +159,7 @@ def average(image):
 Main:
 '''
 
-PyAudio = pyaudio.PyAudio
-BITRATE = 10000
-FREQUENCY = 1
-LENGTH = 1.0000001
+
 
 #uncomment for default picture
 image = Image.open("pokemon.png")
